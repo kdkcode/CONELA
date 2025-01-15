@@ -250,6 +250,9 @@ This implementation builds upon several works:
 - Dataset Cartography: [Swayamdipta et al. (2020)](https://arxiv.org/abs/2009.10795)
 - SBIC dataset: [Sap et al. (2020)](https://arxiv.org/abs/1911.03891)
 - TOXIGEN dataset: (https://github.com/microsoft/TOXIGEN)
+- ETHOS dataset : (https://github.com/intelligence-csd-auth-gr/Ethos-Hate-Speech-Dataset)
+- DYNAHATE dataset : (https://github.com/bvidgen/Dynamically-Generated-Hate-Speech-Dataset)
+- OLID dataset : (https://sites.google.com/site/offensevalsharedtask/olid)
 
 ## License
 
