@@ -213,10 +213,10 @@ Each category represents a specific combination of model learning behavior and h
 ## Citation
 
 ```bibtex
-@inproceedings{anonymous2025conela,
+@inproceedings{kim2025conela,
     title={Analyzing Offensive Language Dataset Insights from Training Dynamics and Human Agreement Level},
-    author={Anonymous},
-    booktitle={COLING},
+    author={Kim, Do-Kyung and Ahn, Hyeseon and Kim, Youngwook and Han, Yo-Sub},
+    booktitle={Proceedings of the 2025 Conference on Computational Linguistics (COLING)},
     year={2025}
 }
 ```
