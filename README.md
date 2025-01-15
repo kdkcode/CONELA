@@ -92,6 +92,124 @@ The script generates:
    - Variability scores
    - Training dynamics
 
+
+### Data Categorization Process
+
+After obtaining the training dynamics metrics (`td_metrics.csv`), we implement a systematic categorization of instances based on both model behavior and human agreement levels.
+
+#### 1. Processing Training Dynamics
+
+First, merge the training dynamics metrics with the original data:
+
+```python
+def merge_dy_origin(train_dy, origin_data):
+    """
+    Merge training dynamics metrics with original annotation data
+    
+    Parameters:
+        train_dy: DataFrame containing training dynamics metrics
+        origin_data: Original dataset with annotations
+        
+    Returns:
+        DataFrame with combined metrics and annotations
+    """
+    temp_origin_data = origin_data[['offensiveYN', 'post']].reset_index()
+    train_dy_metrics = train_dy.merge(
+        temp_origin_data, 
+        left_on="guid", 
+        right_on="index"
+    )
+    
+    train_dy_metrics["abs_offensiveYN"] = train_dy_metrics["offensiveYN"].apply(
+        lambda x: abs(x - 0.5)
+    )
+    
+    return train_dy_metrics
+```
+
+#### 2. Data Splitting Strategy
+
+The data is split into three primary categories based on learning dynamics, then further divided by agreement levels:
+
+```python
+def split_data(data):
+    """
+    Split data into categories using training dynamics and agreement levels
+    
+    Parameters:
+        data: DataFrame containing both dynamics metrics and annotations
+        
+    Returns:
+        Tuple of DataFrames (easy, ambiguous, hard)
+    """
+    df = data.copy()
+    n_samples = int(len(df)/3)
+
+    # Primary categorization by training dynamics
+    easy_df = df.sort_values(by=["confidence"], ascending=False)[:n_samples]
+    not_easy_df = df.sort_values(by=["confidence"], ascending=False)[n_samples:]
+    ambiguous_df = not_easy_df.sort_values(by=["variability"], ascending=False)[:n_samples]
+    hard_df = not_easy_df.sort_values(by=["variability"], ascending=False)[n_samples:]
+    
+    return easy_df, ambiguous_df, hard_df
+```
+
+#### 3. Agreement-Based Subcategorization
+
+Each primary category is further divided based on human agreement levels:
+
+```python
+def save_split_data(easy_df, amb_df, hard_df, output_dir):
+    """
+    Save data splits based on agreement levels
+    
+    Parameters:
+        easy_df: Easy-to-Learn instances
+        amb_df: Ambiguous-to-Learn instances
+        hard_df: Hard-to-Learn instances
+        output_dir: Directory to save categorized data
+    """
+    for category_df, name in zip([easy_df, amb_df, hard_df], 
+                               ["easy", "ambiguous", "hard"]):
+        # Split by agreement level
+        category_df["is_consensual"] = category_df["abs_offensiveYN"].apply(
+            lambda x: x == 0.5
+        )
+        
+        # Save subcategories
+        consensual = category_df[category_df["is_consensual"]]
+        non_consensual = category_df[~category_df["is_consensual"]]
+        
+        consensual.to_csv(f"{output_dir}/{name}_consensual.csv", index=False)
+        non_consensual.to_csv(f"{output_dir}/{name}_non_consensual.csv", index=False)
+```
+
+#### 4. Execution
+
+Run the complete categorization process:
+
+```bash
+python split_categories.py \
+    --metrics_file output/td_metrics.csv \
+    --train_file data/train.csv \
+    --output_dir output/categories
+```
+
+This generates the following categorical structure:
+```
+output/categories/
+├── easy_consensual.csv        # High confidence, high agreement
+├── easy_non_consensual.csv    # High confidence, low agreement
+├── ambiguous_consensual.csv   # Medium confidence, high agreement
+├── ambiguous_non_consensual.csv # Medium confidence, low agreement
+├── hard_consensual.csv        # Low confidence, high agreement
+└── hard_non_consensual.csv    # Low confidence, low agreement
+```
+
+Each category represents a specific combination of model learning behavior and human agreement patterns, allowing for more nuanced analysis and training strategies.
+
+
+
 ## Citation
 
 ```bibtex
@@ -112,3 +230,6 @@ This implementation builds upon several works:
 ## License
 
 [MIT License](LICENSE)
+
+
+
