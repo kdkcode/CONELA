@@ -249,7 +249,7 @@ This implementation builds upon several works:
 - Our pre-training code is based on the code from (https://github.com/allenai/cartography) with some modification.
 - Dataset Cartography: [Swayamdipta et al. (2020)](https://arxiv.org/abs/2009.10795)
 - SBIC dataset: [Sap et al. (2020)](https://arxiv.org/abs/1911.03891)
-- OLID dataset: 
+- TOXIGEN dataset: (https://github.com/microsoft/TOXIGEN)
 
 ## License
 
