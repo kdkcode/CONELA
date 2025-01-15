@@ -208,7 +208,29 @@ output/categories/
 
 Each category represents a specific combination of model learning behavior and human agreement patterns, allowing for more nuanced analysis and training strategies.
 
+### Pre-train a BERT using CONELA
 
+After categorizing the data using Training Dynamics and Human Agreement, the next step is to retrain and evaluate the model on these refined data subsets as the core methodology. 
+
+Below is an example command that uses wo_EtL_HtL_Non_Consensual.csv as the primary training data:
+
+```bash
+python -u conela_sbic.py \
+  --seed 43 \
+  --num_train_epochs 8 \
+  --lr 5e-6 \
+  --batch_size 30 \
+  --train_data_dir /wo_EtL_HtL_Non_Consensual.csv \
+  --eval_data_dir /SBIC.v2.agg.dev.csv \
+  --sbic_data_dir /SBIC.v2.agg.tst.csv \
+  --olid_data_dir /olid.csv \
+  --dyna_data_dir /dyna_test_data.csv \
+  --ethos_data_dir /ethos_binary.csv \
+  --toxigen_data_dir /toxigen_binary.csv \
+  --output_dir /output/wo_EtL_HtL_Non_Consensual
+
+```
+This command not only trains the model with the specified data but also performs evaluation on the SBIC, OLID, DYNA, ETHOS, and TOXIGEN datasets.
 
 ## Citation
 
@@ -224,8 +246,10 @@ Each category represents a specific combination of model learning behavior and h
 ## Acknowledgements
 
 This implementation builds upon several works:
+- Our pre-training code is based on the code from (https://github.com/allenai/cartography) with some modification.
 - Dataset Cartography: [Swayamdipta et al. (2020)](https://arxiv.org/abs/2009.10795)
 - SBIC dataset: [Sap et al. (2020)](https://arxiv.org/abs/1911.03891)
+- OLID dataset: 
 
 ## License
 
