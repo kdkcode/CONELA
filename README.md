@@ -4,7 +4,9 @@ Official implementation of "Analyzing Offensive Language Dataset Insights from T
 
 ## Overview
 
-This repository provides tools and implementation for CONELA (Consensual elimination Of Non-consensual EtL and HtL Annotations), a novel data refinement strategy that enhances model performance and generalization by integrating human annotation agreement with model training dynamics.
+This repository provides tools and implementation for CONELA (Consensual elimination Of Non-consensual EtL and HtL Annotations)[^1], a novel data refinement strategy that enhances model performance and generalization by integrating human annotation agreement with model training dynamics.
+
+[^1]: https://aclanthology.org/2025.coling-main.653/
 
 ![CONELA Overview](./conela_overview.png)
 
