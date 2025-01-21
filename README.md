@@ -1,6 +1,6 @@
-# CONELA: Training Dynamics Analysis for Hate Speech Detection
+# [CONELA: Training Dynamics Analysis for Hate Speech Detection](https://aclanthology.org/2025.coling-main.653/)
 
-Official implementation of "Analyzing Offensive Language Dataset Insights from Training Dynamics and Human Agreement Level" (COLING 2025)
+[Official implementation of "Analyzing Offensive Language Dataset Insights from Training Dynamics and Human Agreement Level" (COLING 2025)](https://aclanthology.org/2025.coling-main.653/)
 
 ## Overview
 
